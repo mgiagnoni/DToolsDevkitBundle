@@ -25,7 +25,7 @@ class CreateCommandCommand extends Command
             ->setDefinition(array(
                 new InputArgument('bundle', InputArgument::REQUIRED, 'Bundle name'),
                 new InputArgument('cmd', InputArgument::REQUIRED, 'Command name (exactly as you would execute it from console)'),
-                new InputOption('template', null, InputOption::VALUE_OPTIONAL, 'Controller class template', 'default'),
+                new InputOption('template', null, InputOption::VALUE_OPTIONAL, 'Command class template', 'default'),
                 new InputOption('class', null, InputOption::VALUE_OPTIONAL, 'Command class name (without Command suffix)'),
             ))
             ->setHelp(<<<EOT
@@ -39,7 +39,7 @@ Creates a command class <info>MyTaskCommand</info> in <info>AcmeMyBundle</info> 
 
 The class is named after the command name, use the <info>--class</info> switch to set a different name.
 
-Sample templates are in <info>DTools/DevkitBundle/Resources/skeleton/controller</info> and can be customized by copying them to <info>app/Resources/DtoolsDevkitBundle/skeleton/controller</info>
+Sample templates are in <info>DTools/DevkitBundle/Resources/skeleton/command</info> and can be customized by copying them to <info>app/Resources/DtoolsDevkitBundle/skeleton/command</info>
 EOT
             )
         ;

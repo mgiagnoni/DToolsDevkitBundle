@@ -47,23 +47,41 @@ Commands
 Generate controller classes
 ---------------------------
 
-The `devkit:controller:create` command generates a controller class, based on a
+The `devkit:create-controller` command generates a controller class, based on a
 customizable template, inside a bundle.
 
 Examples:
 
-    ./app/console devkit:controller:create AcmeMyBundle Default
+    ./app/console devkit:create-controller AcmeMyBundle Default
 
 Creates a controller class `DefaultController` with a sample method `indexAction`
 in `AcmeMyBundle` using default template.
 
-   ./app/console devkit:controller:create AcmeMyBundle Main --action=show --template=container_aware
+    ./app/console devkit:create-controller AcmeMyBundle Main --action=show --template=container_aware
 
 Creates a controller class `MainController` with a sample method `showAction` in
 `AcmeMyBundle` using `container_aware` template.
 
 Sample templates are in `DTools/DevkitBundle/Resources/skeleton/controller` and
 can be customized by copying them to `app/Resources/DtoolsDevkitBundle/skeleton/controller`
+
+Generate CLI command classes
+----------------------------
+
+The `devkit:create-command' command generates a console command class, based on
+a customizable template, inside a bundle.
+
+Examples:
+
+    ./app/console devkit:create-command AcmeMyBundle my:task
+
+Creates a command class `MyTaskCommand` in `AcmeMyBundle` using default template.
+
+The class is named after the command name, use the `--class` switch to set a
+different name.
+
+Sample templates are in `DTools/DevkitBundle/Resources/skeleton/command` and can
+be customized by copying them to `app/Resources/DtoolsDevkitBundle/skeleton/command`
 
 Project informations
 --------------------
