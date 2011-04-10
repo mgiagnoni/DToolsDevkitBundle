@@ -83,6 +83,14 @@ different name.
 Sample templates are in `DTools/DevkitBundle/Resources/skeleton/command` and can
 be customized by copying them to `app/Resources/DtoolsDevkitBundle/skeleton/command`
 
+Generate sample documentation
+-----------------------------
+
+The `devkit:add-docs` command creates sample documentation inside the `Resources/doc/`
+folder of a given bundle.
+
+    ./app/console devkit:add-docs AcmeMyBundle
+
 Project informations
 --------------------
 
