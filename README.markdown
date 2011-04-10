@@ -68,7 +68,7 @@ can be customized by copying them to `app/Resources/DtoolsDevkitBundle/skeleton/
 Generate CLI command classes
 ----------------------------
 
-The `devkit:create-command' command generates a console command class, based on
+The `devkit:create-command` command generates a console command class, based on
 a customizable template, inside a bundle.
 
 Examples:
@@ -86,8 +86,8 @@ be customized by copying them to `app/Resources/DtoolsDevkitBundle/skeleton/comm
 Project informations
 --------------------
 
-The command `devkit:project:info` dispalys basic informations about current
-project and list all configured Dbal connections. Each connection is probed and
+The command `devkit:project:info` displays basic informations about current
+project and lists all configured Dbal connections. Each connection is probed and
 errors reported. This command is currently incomplete: informations about
 additional services will be displayed and more tests performed.
 
