@@ -35,25 +35,10 @@ abstract class Command extends BaseCommand
 
     protected function getTemplatePath($folder, $template)
     {
-        $paths = array(
-            $this->container->get('kernel')->getRootDir() . '/Resources/DToolsDevkitBundle/',
-            __DIR__.'/../Resources/',
-        );
+        $resource = sprintf('@DToolsDevkitBundle/Resources/skeleton/%s/%s', $folder, $template);
+        $rootDir  = $this->container->get('kernel')->getRootDir() . '/Resources';
 
-        $templatePath = null;
-        foreach ($paths as $p) {
-            $path = $p . 'skeleton/' . $folder . '/'. $template;
-            if (file_exists($path)) {
-                $templatePath = $path;
-                break;
-            }
-        }
-
-        if (null === $templatePath) {
-            throw new \RuntimeException(sprintf('Template "%s" doesn\'t exist.', $template));
-        }
-
-        return $templatePath;
+        return $this->container->get('kernel')->locateResource($resource, $rootDir);
     }
 
     protected function renderTemplate($templateFolder, $template, $destFolder, $renderFolder, $params)
