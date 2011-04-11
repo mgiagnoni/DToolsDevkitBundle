@@ -65,7 +65,7 @@ EOT
         $commandFile = $commandFolder . $class . 'Command.php';
 
         if (file_exists($commandFile)) {
-            throw new \RuntimeException(sprintf('A command class "%s" already exists in bundle "%s".', $class, $bundleName));
+            throw new \RuntimeException(sprintf('A command class "%s" already exists in bundle "%s".', $class, $bundle->getName()));
         }
 
         $this->renderTemplate('command', $input->getOption('template'), $bundle->getPath(), $commandFolder, array(
