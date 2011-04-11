@@ -41,6 +41,19 @@ Add bundle to your application kernel
         );
     }
 
+Configure bundle
+----------------
+
+    # app/config.yml
+    #...
+    d_tools_devkit:
+        author
+            name:  Your Name
+            email: youremail@yoursite.com
+
+Both parameters are optional, if included they will be used by some commands (for
+example to create a license file or a copyright header).
+
 Commands
 ========
 
