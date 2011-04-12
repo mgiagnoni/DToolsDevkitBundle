@@ -104,6 +104,20 @@ folder of a given bundle.
 
     ./app/console devkit:add-docs AcmeMyBundle
 
+Add a LICENSE file
+------------------
+
+The `devkit:add-license` adds a LICENSE file inside the `Resources/doc/meta`
+folder of a given bundle.
+
+    ./app/console devkit:add-license AcmeMyBundle --author="Your Name"
+
+If `--author` option is omitted, value of `d_tools_devkit.author.name` as set in
+configuration is used.
+
+The default template adds a MIT license, templates for other licenses can be
+created in `app/Resources/DToolsDevkitBundle/skeleton/license`.
+
 Project informations
 --------------------
 
