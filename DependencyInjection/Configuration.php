@@ -29,7 +29,7 @@ class Configuration
 
         $treeBuilder->root('d_tools_devkit', 'array')
             ->children()
-                ->arrayNode('author')
+                ->arrayNode('author')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('name')->defaultNull()->end()
                         ->scalarNode('email')->defaultNull()->end()
