@@ -118,6 +118,17 @@ configuration is used.
 The default template adds a MIT license, templates for other licenses can be
 created in `app/Resources/DToolsDevkitBundle/skeleton/license`.
 
+Initialize tests bootstrap
+--------------------------
+
+The `devkit:init-tests` creates a default PhpUnit configuration file and a
+bootstrap script to run tests directly from bundle folder.
+
+    ./app/console devkit:init-tests AcmeMyBundle
+
+This command will generate two files: `Acme/MyBundle/phpunit.xml.dist` and
+`Acme/MyBundle/Tests/bootstrap.php`.
+
 Project informations
 --------------------
 
@@ -126,7 +137,7 @@ project and lists all configured Dbal connections. Each connection is probed and
 errors reported. This command is currently incomplete: informations about
 additional services will be displayed and more tests performed.
 
-     ../app/console devkit:project:info
+     ./app/console devkit:project:info
 
 Contact me
 ==========
