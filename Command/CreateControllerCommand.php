@@ -55,7 +55,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->findBundle($input->getArgument('bundle'));
+        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
 
         $controllerName = ucfirst($input->getArgument('controller'));
         $controllerFolder = $bundle->getPath() . '/Controller/';

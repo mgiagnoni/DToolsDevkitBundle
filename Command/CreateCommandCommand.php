@@ -50,7 +50,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->findBundle($input->getArgument('bundle'));
+        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
         $command = $input->getArgument('cmd');
 
         if (preg_match('/[^A-Za-z0-9\:\-]/', $command)) {

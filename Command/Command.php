@@ -14,25 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Util\Mustache;
 
 abstract class Command extends BaseCommand
 {
-    protected function findBundle($bundleName)
-    {
-        $found = false;
-
-        foreach ($this->container->get('kernel')->getBundles() as $bundle) {
-            if ($bundleName === $bundle->getName()) {
-                $found = $bundle;
-                break;
-            }
-        }
-
-        if (!$found)
-        {
-            throw new \RuntimeException('The bundle "' . $bundleName . '" doesn\'t exist or is not enabled.');
-        }
-
-        return $found;
-    }
-
     protected function getTemplatePath($folder, $template)
     {
         $resource = sprintf('@DToolsDevkitBundle/Resources/skeleton/%s/%s', $folder, $template);

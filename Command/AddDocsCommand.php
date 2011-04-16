@@ -33,7 +33,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->findBundle($input->getArgument('bundle'));
+        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
         $docFolder = $bundle->getPath() . '/Resources/doc/';
         if (file_exists($docFolder . 'index.rst')) {
             throw new \RuntimeException(sprintf('A documentation index file already exists in bundle "%s".', $bundle->getName()));

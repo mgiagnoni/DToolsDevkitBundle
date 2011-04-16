@@ -37,7 +37,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->findBundle($input->getArgument('bundle'));
+        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
         if (null === $author = $input->getOption('author')) {
             $author = $this->container->getParameter('d_tools_devkit.author.name');
         }
