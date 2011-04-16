@@ -5,5 +5,11 @@
     <parameters>
         <parameter key="d_tools_devkit.author.name"></parameter>
         <parameter key="d_tools_devkit.author.email"></parameter>
+        <parameter key="d_tools_devkit.generator.class">DTools\DevkitBundle\Generator\DefaultGenerator</parameter>
     </parameters>
+    <services>
+        <service id="d_tools_devkit.generator" class="%d_tools_devkit.generator.class%">
+            <argument type="service" id="filesystem" />
+        </service>
+    </services>
 </container>

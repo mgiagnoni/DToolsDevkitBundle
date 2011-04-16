@@ -34,6 +34,12 @@ class Configuration
                         ->scalarNode('name')->defaultNull()->end()
                         ->scalarNode('email')->defaultNull()->end()
                     ->end()
+               ->end()
+               ->arrayNode('generator')->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('class')->cannotBeEmpty()->defaultValue('DTools\DevkitBundle\Generator\DefaultGenerator')->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder->buildTree();
