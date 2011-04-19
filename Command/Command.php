@@ -10,25 +10,52 @@
 namespace DTools\DevkitBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
-use Symfony\Bundle\FrameworkBundle\Util\Mustache;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class Command extends BaseCommand
 {
-    protected function getTemplatePath($folder, $template)
+    protected $bundle;
+    protected $template;
+
+    protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $resource = sprintf('@DToolsDevkitBundle/Resources/skeleton/%s/%s', $folder, $template);
+        parent::initialize($input, $output);
+
+        if ($input->hasOption('template')) {
+            $this->template = $input->getOption('template');
+        }
+
+        if ($input->hasArgument('bundle')) {
+            $this->bundle = $this->container->get('kernel')
+                ->getBundle($input->getArgument('bundle'));
+
+            $this->container->get('d_tools_devkit.generator')
+                ->setDestinationDir($this->bundle->getPath());
+        }
+    }
+
+    protected function getTemplatePath($folder)
+    {
+        $resource = sprintf('@DToolsDevkitBundle/Resources/skeleton/%s/%s', $folder, $this->template);
         $rootDir  = $this->container->get('kernel')->getRootDir() . '/Resources';
 
         return $this->container->get('kernel')->locateResource($resource, $rootDir);
     }
 
-    protected function renderTemplate($templateFolder, $template, $destFolder, $renderFolder, $params)
+    protected function resourceExists($bundle, $resource)
     {
-        $templatePath = $this->getTemplatePath($templateFolder, $template);
+        if ('/' !== substr($resource, 0, 1)) {
+            $resource = '/' . $resource;
+        }
 
-        $filesystem = $this->container->get('filesystem');
-        $filesystem->mirror($templatePath, $destFolder);
+        try {
+            $this->container->get('kernel')
+                ->locateResource('@' . $bundle->getName() . $resource);
+        } catch (\InvalidArgumentException $e) {
+            return false;
+        }
 
-        Mustache::renderDir($renderFolder, $params);
+        return true;
     }
 }

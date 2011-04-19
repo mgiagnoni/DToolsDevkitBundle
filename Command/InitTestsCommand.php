@@ -42,30 +42,27 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
-
-        $bundleFolder = $bundle->getPath() . '/';
-        $testsFolder = $bundleFolder . '/Tests/';
-
-        if (file_exists($bundleFolder . '/phpunit.xml.dist')) {
-            throw new \RuntimeException(sprintf('A "phpunit.xml.dist" file already exists in "%s" folder.', $bundle->getName()));
+        if ($this->resourceExists($this->bundle, '/phpunit.xml.dist')) {
+            throw new \RuntimeException(sprintf('A "phpunit.xml.dist" file already exists in "%s" folder.', $this->bundle->getName()));
         }
 
-        if (file_exists($testsFolder . '/bootstrap.php')) {
-            throw new \RuntimeException(sprintf('A "bootstrap.php" file already exists in "%s" "Tests" folder.', $bundle->getName()));
+        if ($this->resourceExists($this->bundle, '/Tests/bootstrap.php')) {
+            throw new \RuntimeException(sprintf('A "bootstrap.php" file already exists in "%s" "Tests" folder.', $this->bundle->getName()));
         }
 
-        $this->renderTemplate('tests', $input->getOption('template'), $bundleFolder, $testsFolder, array(
-            'namespace' => addslashes($bundle->getNamespace()),
-            'ct_namespace' => count(explode('\\', $bundle->getNamespace()))
-        ));
+        $this->container->get('d_tools_devkit.generator')
+            ->setSourceDir($this->getTemplatePath('tests'))
+            ->setFileNames(array(
+                '_phpunit.xml.dist.tpl' => 'phpunit.xml.dist',
+                '_bootstrap.tpl' => 'bootstrap.php'
+             ))
+            ->setParameters(array(
+                'namespace' => addslashes($this->bundle->getNamespace()),
+                'ct_namespace' => count(explode('\\', $this->bundle->getNamespace())),
+                'bundle' => $this->bundle->getName()
+            ))
+            ->render();
 
-        Mustache::renderFile($bundleFolder . '_phpunit.xml.dist.tpl', array(
-            'bundle' => $bundle->getName()
-        ));
-
-        rename($bundleFolder . '_phpunit.xml.dist.tpl', $bundleFolder . 'phpunit.xml.dist');
-        rename($testsFolder . '_bootstrap.tpl', $testsFolder . 'bootstrap.php');
-        $output->writeln(sprintf('A <info>phpunit.xml.dist</info> and <info>Tests/bootstrap.php</info> files have been generated for bundle <info>%s</info>.', $bundle->getName()));
+        $output->writeln(sprintf('A <info>phpunit.xml.dist</info> and <info>Tests/bootstrap.php</info> files have been generated for bundle <info>%s</info>.', $this->bundle->getName()));
     }
 }

@@ -33,19 +33,19 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
-        $docFolder = $bundle->getPath() . '/Resources/doc/';
-        if (file_exists($docFolder . 'index.rst')) {
-            throw new \RuntimeException(sprintf('A documentation index file already exists in bundle "%s".', $bundle->getName()));
+        if ($this->resourceExists($this->bundle, '/Resources/doc/index.rst')) {
+            throw new \RuntimeException(sprintf('A documentation index file already exists in bundle "%s".', $this->bundle->getName()));
         }
 
-        $this->renderTemplate('doc', $input->getOption('template'), $bundle->getPath(), $docFolder, array(
-            'namespace' => $bundle->getNamespace(),
-            'bundle' => $bundle->getName()
-        ));
+        $this->container->get('d_tools_devkit.generator')
+            ->setSourceDir($this->getTemplatePath('doc'))
+            ->setFileNames(array('_index.tpl' => 'index.rst'))
+            ->setParameters(array(
+                'namespace' => $this->bundle->getNamespace(),
+                'bundle' => $this->bundle->getName()
+            ))
+            ->render();
 
-        rename($docFolder . '_index.tpl', $docFolder . 'index.rst');
-
-        $output->writeln(sprintf('Sample documentation file has been added in <info>Resources/doc</info> folder of bundle <info>%s</info>', $bundle->getName()));
+        $output->writeln(sprintf('Sample documentation file has been added in <info>Resources/doc</info> folder of bundle <info>%s</info>', $this->bundle->getName()));
     }
 }

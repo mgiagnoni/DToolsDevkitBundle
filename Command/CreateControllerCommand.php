@@ -55,24 +55,24 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
-
         $controllerName = ucfirst($input->getArgument('controller'));
-        $controllerFolder = $bundle->getPath() . '/Controller/';
-        $controllerFile = $controllerFolder . $controllerName . 'Controller.php';
+        $controllerFile = $controllerName . 'Controller.php';
 
-        if (file_exists($controllerFile)) {
-            throw new \RuntimeException(sprintf('A controller "%s" already exists in bundle "%s".', $controllerName, $bundle->getName()));
+        if ($this->resourceExists($this->bundle, '/Controller/' . $controllerFile)) {
+            throw new \RuntimeException(sprintf('A controller "%s" already exists in bundle "%s".', $controllerName, $this->bundle->getName()));
         }
 
-        $this->renderTemplate('controller', $input->getOption('template'), $bundle->getPath(), $controllerFolder, array(
-            'namespace' => $bundle->getNamespace(),
-            'controller' => $controllerName,
-            'action' => $input->getOption('action'),
-            'bundle' => $bundle->getName()
-        ));
+        $this->container->get('d_tools_devkit.generator')
+            ->setSourceDir($this->getTemplatePath('controller'))
+            ->setFileNames(array('_controller.tpl' => $controllerFile))
+            ->setParameters(array(
+                'namespace' => $this->bundle->getNamespace(),
+                'controller' => $controllerName,
+                'action' => $input->getOption('action'),
+                'bundle' => $this->bundle->getName()
+            ))
+            ->render();
 
-        rename($controllerFolder . '_controller.tpl', $controllerFile);
-        $output->writeln(sprintf('A controller <info>%sController</info> has been successfully created in bundle <info>%s</info>', $controllerName, $bundle->getName()));
+        $output->writeln(sprintf('A controller <info>%sController</info> has been successfully created in bundle <info>%s</info>', $controllerName, $this->bundle->getName()));
     }
 }

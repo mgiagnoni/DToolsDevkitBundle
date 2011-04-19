@@ -50,7 +50,6 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
         $command = $input->getArgument('cmd');
 
         if (preg_match('/[^A-Za-z0-9\:\-]/', $command)) {
@@ -61,21 +60,23 @@ EOT
             $class = str_replace(' ', '', ucwords($class));
         }
 
-        $commandFolder = $bundle->getPath() . '/Command/';
-        $commandFile = $commandFolder . $class . 'Command.php';
+        $commandFile =  $class . 'Command.php';
 
-        if (file_exists($commandFile)) {
-            throw new \RuntimeException(sprintf('A command class "%s" already exists in bundle "%s".', $class, $bundle->getName()));
+        if ($this->resourceExists($this->bundle, '/Command/' . $commandFile)) {
+            throw new \RuntimeException(sprintf('A command class "%sCommand" already exists in bundle "%s".', $class, $this->bundle->getName()));
         }
 
-        $this->renderTemplate('command', $input->getOption('template'), $bundle->getPath(), $commandFolder, array(
-            'namespace' => $bundle->getNamespace(),
-            'class' => $class,
-            'command' => $command,
-            'bundle' => $bundle->getName()
-        ));
+        $this->container->get('d_tools_devkit.generator')
+            ->setSourceDir($this->getTemplatePath('command'))
+            ->setFileNames(array('_command.tpl' => $commandFile))
+            ->setParameters(array(
+                'namespace' => $this->bundle->getNamespace(),
+                'class' => $class,
+                'command' => $command,
+                'bundle' => $this->bundle->getName()
+            ))
+            ->render();
 
-        rename($commandFolder . '_command.tpl', $commandFile);
-        $output->writeln(sprintf('A console command <info>%s</info> (class <info>%sCommand</info>) has been successfully created in bundle <info>%s</info>', $command, $class, $bundle->getName()));
+        $output->writeln(sprintf('A console command <info>%s</info> (class <info>%sCommand</info>) has been successfully created in bundle <info>%s</info>', $command, $class, $this->bundle->getName()));
     }
 }

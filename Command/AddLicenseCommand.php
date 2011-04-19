@@ -37,23 +37,24 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $this->container->get('kernel')->getBundle($input->getArgument('bundle'));
         if (null === $author = $input->getOption('author')) {
             $author = $this->container->getParameter('d_tools_devkit.author.name');
         }
 
-        $licenseFolder = $bundle->getPath() . '/Resources/meta/';
-        if (file_exists($licenseFolder . 'LICENSE')) {
-            throw new \RuntimeException(sprintf('A LICENSE file already exists in bundle "%s".', $bundle->getName()));
+        if ($this->resourceExists($this->bundle, '/Resources/meta/LICENSE')) {
+            throw new \RuntimeException(sprintf('A LICENSE file already exists in bundle "%s".', $this->bundle->getName()));
         }
 
-        $this->renderTemplate('license', $input->getOption('template'), $bundle->getPath(), $licenseFolder, array(
-            'author' => $author,
-            'year' => date('Y'),
-            'bundle' => $bundle->getName()
-        ));
+        $this->container->get('d_tools_devkit.generator')
+            ->setSourceDir($this->getTemplatePath('license'))
+            ->setFileNames(array('_license.tpl' => 'LICENSE'))
+            ->setParameters(array(
+                'author' => $author,
+                'year' => date('Y'),
+                'bundle' => $this->bundle->getName()
+            ))
+            ->render();
 
-        rename($licenseFolder . '_license.tpl', $licenseFolder . 'LICENSE');
-        $output->writeln(sprintf('A LICENSE file has been added in <info>Resources/meta</info> folder of bundle <info>%s</info>', $bundle->getName()));
+        $output->writeln(sprintf('A LICENSE file has been added in <info>Resources/meta</info> folder of bundle <info>%s</info>', $this->bundle->getName()));
     }
 }
