@@ -9,21 +9,21 @@
 
 namespace DTools\DevkitBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * This class contains the configuration information for the bundle
  *
  */
-class Configuration
+class Configuration implements ConfigurationInterface
 {
     /**
      * Generates the configuration tree.
      *
      * @return \Symfony\Component\DependencyInjection\Configuration\NodeInterface
      */
-    public function getConfigTree()
+    public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
 
@@ -42,6 +42,6 @@ class Configuration
                 ->end()
             ->end();
 
-        return $treeBuilder->buildTree();
+        return $treeBuilder;
     }
 }
