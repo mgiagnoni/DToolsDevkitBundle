@@ -129,6 +129,24 @@ bootstrap script to run tests directly from bundle folder.
 This command will generate two files: `Acme/MyBundle/phpunit.xml.dist` and
 `Acme/MyBundle/Tests/bootstrap.php`.
 
+Generate PhpUnit tests
+----------------------
+
+The `devkit:create-test` creates a PhpUnit test case class inside a bundle.
+
+    ./app/console devkit:create-test AcmeMyBundle "Model\Article"
+
+This command creates a test case class `Acme\MyBundle\Tests\Model\ArticleTest`.
+
+The class name is relative to bundle namespace. Note that the name must be
+double quoted because of backslash.
+
+Test case class is named after the class you are writing the test for, use the
+`--test-class` option to specify a different name.
+
+The `default` template generates a standard unit test, if you want a functional
+test case, use `functional` template.
+
 Project informations
 --------------------
 
