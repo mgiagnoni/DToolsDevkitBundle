@@ -147,6 +147,40 @@ Test case class is named after the class you are writing the test for, use the
 The `default` template generates a standard unit test, if you want a functional
 test case, use `functional` template.
 
+Generate a sample Dependency Injection extension
+------------------------------------------------
+
+The command `devkit:create-config` creates the basic skeleton of a Dependency
+Injection extension with a Configuration class for a given bundle. A
+configuration file with some sample parameters is also generated.
+
+    app/console devkit:create-config AcmeMyBundle parameters.xml
+
+This command creates `AcmeMyExtension.php` and `Configuration.php` files in
+`Acme/MyBundle/DependencyInjection` folder and `parameters.xml` file in
+`Acme/MyBundle/Resources/config`.
+
+Edit your application `config.yml` file to set values for sample parameters.
+
+    # app/config.yml
+
+    acme_my:
+        param1: myvalue1
+        param2:
+            key1: myvalue2
+
+Then you can access a parameter value through the Dependency Injection container,
+for example in a controller action.
+
+    // returns 'myvalue1'
+    $param = $this->container->getParameter('acme_my.param1');
+
+    // returns 'myvalue2'
+    $param = $this->container->getParameter('acme_my.param2.key1');
+
+    // no value set in app/config.yml so it returns default value 'value2-2'
+    $param = $this->container->getParameter('acme_my.param2.key2');
+
 Project informations
 --------------------
 
