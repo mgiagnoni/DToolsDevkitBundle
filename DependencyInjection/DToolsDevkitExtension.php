@@ -29,6 +29,7 @@ class DToolsDevkitExtension extends Extension
 
         $container->setParameter('d_tools_devkit.author.name', $config['author']['name']);
         $container->setParameter('d_tools_devkit.author.email', $config['author']['email']);
+        $container->setParameter('d_tools_devkit.alias', $config['alias']);
         $container->setParameter('d_tools_devkit.generator.class', $config['generator']['class']);
     }
 }

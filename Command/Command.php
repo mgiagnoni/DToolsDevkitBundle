@@ -27,8 +27,15 @@ abstract class Command extends BaseCommand
         }
 
         if ($input->hasArgument('bundle')) {
+            $bundleName = $input->getArgument('bundle');
+            $alias = $this->container->getParameter('d_tools_devkit.alias');
+
+            if (isset($alias[$bundleName])) {
+                $bundleName = $alias[$bundleName];
+            }
+
             $this->bundle = $this->container->get('kernel')
-                ->getBundle($input->getArgument('bundle'));
+                ->getBundle($bundleName);
 
             $this->container->get('d_tools_devkit.generator')
                 ->setDestinationDir($this->bundle->getPath());
