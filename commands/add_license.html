@@ -1,0 +1,125 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>devkit:add-license &mdash; DToolsDevkitBundle v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="DToolsDevkitBundle v1.0 documentation" href="../index.html" />
+    <link rel="up" title="Commands" href="index.html" />
+    <link rel="next" title="devkit:project-info" href="project_info.html" />
+    <link rel="prev" title="devkit:add-docs" href="add_docs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="project_info.html" title="devkit:project-info"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="add_docs.html" title="devkit:add-docs"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">DToolsDevkitBundle v1.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Commands</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="devkit-add-license">
+<h1>devkit:add-license<a class="headerlink" href="#devkit-add-license" title="Permalink to this headline">¶</a></h1>
+<p>The <tt class="docutils literal"><span class="pre">devkit:add-license</span></tt> command creates a LICENSE file for a bundle.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><pre>./app/console devkit:add-license AcmeMyBundle --author="Your Name"</pre>
+</div>
+<p>This command generates the following file:</p>
+<div class="highlight-python"><pre>src
+ Acme
+  MyBundle
+   Resources
+    meta
+     &gt; LICENSE</pre>
+</div>
+<p>If <tt class="docutils literal"><span class="pre">--author</span></tt> option is omitted, the value of parameter <tt class="docutils literal"><span class="pre">d_tools_devkit.author.name</span></tt>
+as set in <a class="reference internal" href="../configuration.html"><em>bundle configuration</em></a> is used.</p>
+<p>The default template adds a <strong>MIT</strong> license, templates for other licenses can be
+created in <tt class="docutils literal"><span class="pre">app/Resources/DToolsDevkitBundle/skeleton/license</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">devkit:add-license</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="add_docs.html"
+                        title="previous chapter">devkit:add-docs</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="project_info.html"
+                        title="next chapter">devkit:project-info</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="project_info.html" title="devkit:project-info"
+             >next</a></li>
+        <li class="right" >
+          <a href="add_docs.html" title="devkit:add-docs"
+             >previous</a> |</li>
+        <li><a href="../index.html">DToolsDevkitBundle v1.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Commands</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+    </div>
+  </body>
+</html>
