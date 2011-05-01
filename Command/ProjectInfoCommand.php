@@ -89,7 +89,7 @@ class ProjectInfoCommand extends Command
         $connections = array();
         foreach ($this->container->getServiceIds() as $service) {
             $matches = array();
-            if (preg_match('/doctrine\.dbal\.(.*?)_connection/', $service, $matches)) {
+            if (preg_match('/doctrine\.dbal\.(.*?)_connection$/', $service, $matches)) {
                 $connections[] = $matches[1];
             }
         }
