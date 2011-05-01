@@ -22,6 +22,7 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
     public function setup()
     {
         $this->registerTestNamespace();
+        $this->mirrorConfiguration();
         $this->mirrorDummyBundle();
     }
 
@@ -99,5 +100,11 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
     {
         $fs = new Filesystem();
         $fs->remove($this->getTmpDir() . '/src');
+    }
+
+    protected function mirrorConfiguration()
+    {
+        $fs = new Filesystem();
+        $fs->mirror(__DIR__ . '/../Tests/Fixtures/configuration', $this->getTmpDir());
     }
 }

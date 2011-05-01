@@ -38,8 +38,6 @@ class Kernel extends BaseKernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(function ($container) {
-            $container->setParameter('kernel.compiled_classes', array());
-        });
+        $loader->load($this->tmpDir.'/config/config.yml');
     }
 }
