@@ -16,18 +16,36 @@ class AddLicenseCommandTest extends CommandTestCase
 {
     public function testAddLicense()
     {
-        $commandTester = $this->getCommandTester(new AddLicenseCommand());
-        $params = array(
-            'command' => 'devkit:add-license',
-            'bundle' => 'DToolsTestDummyBundle'
-        );
-        $commandTester->execute($params);
+        $this->setSourceDirExpects('license');
 
-        $this->assertFileExists($this->getDummyDir() . '/Resources/meta/LICENSE');
-        $this->assertRegExp("/DToolsTestDummyBundle/", $commandTester->getDisplay());
+        $this->setParametersExpects(array(
+            'author' => 'Test',
+            'year' => date('Y'),
+            'bundle' => 'DummyBundle'
+        ));
 
+        $commandTester = $this->executeCommand();
+
+        $this->assertRegExp("/DummyBundle/", $commandTester->getDisplay());
+    }
+
+    public function testAddLicenseResourceExists()
+    {
         $this->setExpectedException('RuntimeException');
+        $this->executeCommand(array('bundle' => 'DummyBundle2'));
+    }
+
+    protected function executeCommand($extra = array())
+    {
+        $params = array_merge(array(
+            'command' => 'devkit:add-license',
+            'bundle' => 'DummyBundle',
+            '--author' => 'Test'
+        ), $extra);
+
+        $commandTester = $this->getCommandTester(new AddLicenseCommand());
         $commandTester->execute($params);
 
+        return $commandTester;
     }
 }

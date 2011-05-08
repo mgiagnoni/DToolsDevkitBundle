@@ -16,19 +16,31 @@ class InitTestsCommandTest extends CommandTestCase
 {
     public function testInitTests()
     {
-        $commandTester = $this->getCommandTester(new InitTestsCommand());
-        $params = array(
-            'command' => 'devkit:init-tests',
-            'bundle' => 'DToolsTestDummyBundle'
-        );
+        $this->setParametersExpects(array(
+            'namespace' => 'DToolsTest\\\\DummyBundle',
+            'ct_namespace' => 2,
+            'bundle' => 'DummyBundle'
+        ));
 
+        $this->executeCommand();
+    }
+
+    public function testInitTestsResourceExists()
+    {
+        $this->setExpectedException('RuntimeException');
+        $this->executeCommand(array('bundle' => 'DummyBundle2'));
+    }
+
+    protected function executeCommand($extra = array())
+    {
+        $params = array_merge(array(
+            'command' => 'devkit:init-tests',
+            'bundle' => 'DummyBundle'
+        ), $extra);
+
+        $commandTester = $this->getCommandTester(new InitTestsCommand());
         $commandTester->execute($params);
 
-        $this->assertFileExists($this->getDummyDir() . '/phpunit.xml.dist');
-        $bootstrapFile = $this->getDummyDir() . '/Tests/bootstrap.php';
-        $this->assertFileExists($bootstrapFile);
-
-        $content = file_get_contents($bootstrapFile);
-        $this->assertRegExp('/DToolsTest\\\\{2}DummyBundle\\\\{2}/', $content);
+        return $commandTester;
     }
 }

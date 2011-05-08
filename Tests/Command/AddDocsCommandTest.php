@@ -16,18 +16,34 @@ class AddDocsCommandTest extends CommandTestCase
 {
     public function testAddDocs()
     {
-        $commandTester = $this->getCommandTester(new AddDocsCommand());
-        $params = array(
-            'command' => 'devkit:add-docs',
-            'bundle' => 'DToolsTestDummyBundle'
-        );
-        $commandTester->execute($params);
+        $this->setSourceDirExpects('doc');
 
-        $this->assertFileExists($this->getDummyDir() . '/Resources/doc/index.rst');
-        $this->assertRegExp("/DToolsTestDummyBundle/", $commandTester->getDisplay());
+        $this->setParametersExpects(array(
+            'namespace' => 'DToolsTest\DummyBundle',
+            'bundle' => 'DummyBundle'
+        ));
 
+        $commandTester = $this->executeCommand();
+
+        $this->assertRegExp("/DummyBundle/", $commandTester->getDisplay());
+    }
+
+    public function testAddDocsResourceExists()
+    {
         $this->setExpectedException('RuntimeException');
+        $this->executeCommand(array('bundle' => 'DummyBundle2'));
+    }
+
+    protected function executeCommand($extra = array())
+    {
+        $params = array_merge(array(
+            'command' => 'devkit:add-docs',
+            'bundle' => 'DummyBundle'
+        ), $extra);
+
+        $commandTester = $this->getCommandTester(new AddDocsCommand());
         $commandTester->execute($params);
 
+        return $commandTester;
     }
 }

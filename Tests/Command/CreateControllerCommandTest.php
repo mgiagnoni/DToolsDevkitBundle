@@ -16,49 +16,44 @@ class CreateControllerCommandTest extends CommandTestCase
 {
     public function testCreateController()
     {
+        $this->setSourceDirExpects('controller');
+
+        $generator = $this->getMockGenerator(true);
+
+        $generator->expects($this->once())
+            ->method('setFilenames')
+            ->with($this->equalTo(array(
+                    '_controller.tpl' => 'TestController.php'
+                )))
+            ->will($this->returnValue($generator));
+
+        $generator->expects($this->once())
+            ->method('setParameters')
+            ->with($this->equalTo(array(
+                'namespace' => 'DToolsTest\DummyBundle',
+                'controller' => 'Test',
+                'action' => 'index',
+                'bundle' => 'DummyBundle'
+            )))
+            ->will($this->returnValue($generator));
+
         $commandTester = $this->executeCommand();
 
-        $controllerFile = $this->getDummyDir() . '/Controller/DefaultController.php';
-        $this->assertFileExists($controllerFile);
+        $this->assertRegExp("/TestController(.*?)DummyBundle/", $commandTester->getDisplay());
+    }
 
-        $this->assertRegExp("/DefaultController(.*?)DToolsTestDummyBundle/", $commandTester->getDisplay());
-
-        $content = file_get_contents($controllerFile);
-        $this->assertRegExp('/DefaultController extends Controller/', $content);
-        $this->assertRegExp('/public function indexAction()/', $content);
-
+    public function testCreateControllerResourceExists()
+    {
         $this->setExpectedException('RuntimeException');
-        $this->executeCommand();
-    }
-
-    public function testCreateContainerAwareController()
-    {
-        $this->executeCommand(array('--template' => 'container_aware'));
-
-        $controllerFile = $this->getDummyDir() . '/Controller/DefaultController.php';
-        $this->assertFileExists($controllerFile);
-
-        $content = file_get_contents($controllerFile);
-        $this->assertRegExp('/DefaultController extends ContainerAware/', $content);
-    }
-
-    public function testCreateControllerAction()
-    {
-        $this->executeCommand(array('--action' => 'show'));
-
-        $controllerFile = $this->getDummyDir() . '/Controller/DefaultController.php';
-        $this->assertFileExists($controllerFile);
-
-        $content = file_get_contents($controllerFile);
-        $this->assertRegExp('/public function showAction()/', $content);
+        $this->executeCommand(array('bundle' => 'DummyBundle2'));
     }
 
     protected function executeCommand($extra = array())
     {
         $params = array_merge(array(
             'command' => 'devkit:create-controller',
-            'controller' => 'default',
-            'bundle' => 'DToolsTestDummyBundle'
+            'controller' => 'test',
+            'bundle' => 'DummyBundle'
         ), $extra);
 
         $commandTester = $this->getCommandTester(new CreateControllerCommand());

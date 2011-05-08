@@ -9,102 +9,136 @@
 
 namespace DTools\DevkitBundle\Test;
 
-use Symfony\Component\HttpKernel\Util\Filesystem;
-use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
 {
-    protected $tmpDir;
     protected $kernel;
+    protected $container;
+    protected $generator;
 
-    public function setup()
+    protected function getMockKernel()
     {
-        $this->registerTestNamespace();
-        $this->mirrorConfiguration();
-        $this->mirrorDummyBundle();
-    }
+        if (null === $this->kernel) {
 
-    public function tearDown()
-    {
-        $this->deleteTmpDir();
-    }
+            $this->kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\Kernel')
+                    ->disableOriginalConstructor()
+                    ->setMethods(array(
+                        'getContainer',
+                        'registerBundles',
+                        'registerContainerConfiguration',
+                        'initializeContainer'
+                    ))
+                    ->getMock();
 
-    protected function getKernel()
-    {
-        if (null === $this->kernel)
-        {
-            $this->createKernel();
+            $this->kernel->expects($this->once())
+                ->method('registerBundles')
+                ->will($this->returnValue(array(
+                    new \DTools\DevkitBundle\DToolsDevkitBundle(),
+                    new \DTools\DevkitBundle\Tests\Fixtures\DummyBundle\DummyBundle(),
+                    new \DTools\DevkitBundle\Tests\Fixtures\DummyBundle2\DummyBundle2()
+                )));
+
+            $this->kernel->expects($this->any())
+                ->method('getContainer')
+                ->will($this->returnValue($this->getMockContainer()));
         }
+
         return $this->kernel;
     }
 
-    protected function createKernel()
+    protected function getMockContainer()
     {
-        $this->kernel = new Kernel($this->getTmpDir());
-        $this->kernel->boot();
+        if (null === $this->container) {
+
+            $services = array(
+                'kernel' => $this->getMockKernel(),
+                'filesystem' => $this->getMock('Symfony\Component\HttpKernel\Util\Filesystem'),
+                'd_tools_devkit.generator' => $this->getMockGenerator()
+            );
+
+            $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+
+            $this->container->expects($this->any())
+                ->method('get')
+                ->will($this->returnCallBack( function($arg) use ($services) {
+                    if (isset($services[$arg])) {
+                        return $services[$arg];
+                    }
+                }));
+        }
+
+        return $this->container;
+    }
+
+    protected function getMockGenerator()
+    {
+        if (null === $this->generator) {
+            $this->generator = $this->getMockBuilder('DTools\DevkitBundle\Generator\DefaultGenerator')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+            //Default expectations to mock generator fluent interface
+
+            $this->generator->expects($this->any())
+                ->method('setDestinationDir')
+                ->will($this->returnValue($this->generator));
+
+            $this->generator->expects($this->any())
+                ->method('setSourceDir')
+                ->will($this->returnValue($this->generator));
+
+            $this->generator->expects($this->any())
+                ->method('setParameters')
+                ->will($this->returnValue($this->generator));
+
+            $this->generator->expects($this->any())
+                ->method('setFilenames')
+                ->will($this->returnValue($this->generator));
+
+        }
+        return $this->generator;
+    }
+
+    protected function setSourceDirExpects($skeletonFolder, $template = 'default')
+    {
+        $generator = $this->getMockGenerator();
+        $base = realpath(__DIR__ . '/../');
+
+        $generator->expects($this->once())
+            ->method('setSourceDir')
+            ->with($this->equalTo(
+                sprintf('%s/Resources/skeleton/%s/%s', $base, $skeletonFolder, $template)
+            ))
+            ->will($this->returnValue($generator));
+    }
+
+    protected function setParametersExpects($params)
+    {
+        $generator = $this->getMockGenerator();
+
+        $generator->expects($this->once())
+            ->method('setParameters')
+            ->with($this->equalTo($params))
+            ->will($this->returnValue($generator));
+    }
+
+    protected function setFilenamesExpects($files)
+    {
+        $generator = $this->getMockGenerator();
+
+        $generator->expects($this->once())
+            ->method('setFilenames')
+            ->with($this->equalTo($files))
+            ->will($this->returnValue($generator));
     }
 
     protected function getCommandTester($command)
     {
-        $kernel = $this->getKernel();
-        $application = new Application($kernel);
+        $application = new Application($this->getMockKernel());
         $command->setApplication($application);
 
         return new CommandTester($command);
-    }
-
-    protected function getTmpDir()
-    {
-        if (!$this->tmpDir) {
-            $tmpDir = sys_get_temp_dir().'/d_tools';
-            if (!is_dir($tmpDir)) {
-                if (false === @mkdir($tmpDir)) {
-                    die(sprintf('Unable to create a temporary directory (%s)', $tmpDir));
-                }
-            } elseif (!is_writable($tmpDir)) {
-                die(sprintf('Unable to write in a temporary directory (%s)', $tmpDir));
-            }
-            $this->tmpDir = $tmpDir;
-        }
-        return $this->tmpDir;
-    }
-
-    protected function getDummyDir()
-    {
-        return $this->getTmpDir() . '/src/DToolsTest/DummyBundle';
-    }
-
-    protected function deleteTmpDir()
-    {
-        if ($this->tmpDir) {
-            $fs = new Filesystem();
-            $fs->remove($this->tmpDir);
-        }
-    }
-
-    protected function registerTestNamespace() {
-        $loader = new UniversalClassLoader();
-        $loader->registerNamespace('DToolsTest', $this->getTmpDir() . '/src');
-        $loader->register();
-    }
-
-    protected function mirrorDummyBundle()
-    {
-        $fs = new Filesystem();
-        $fs->mirror(__DIR__ . '/../Tests/Fixtures/bundle', $this->getTmpDir() . '/src');
-    }
-
-    protected function deleteDummyBundle()
-    {
-        $fs = new Filesystem();
-        $fs->remove($this->getTmpDir() . '/src');
-    }
-
-    protected function mirrorConfiguration()
-    {
-        $fs = new Filesystem();
-        $fs->mirror(__DIR__ . '/../Tests/Fixtures/configuration', $this->getTmpDir());
     }
 }

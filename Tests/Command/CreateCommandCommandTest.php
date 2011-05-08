@@ -16,32 +16,48 @@ class CreateCommandCommandTest extends CommandTestCase
 {
     public function testCreateCommand()
     {
+        $this->setSourceDirExpects('command');
+
+        $this->setFilenamesExpects(array(
+            '_command.tpl' => 'MyTestCommand.php'
+        ));
+
+        $this->setParametersExpects(array(
+            'namespace' => 'DToolsTest\DummyBundle',
+            'class' => 'MyTest',
+            'command' => 'my:test',
+            'bundle' => 'DummyBundle'
+        ));
+
         $commandTester = $this->executeCommand();
 
-        $commandFile = $this->getDummyDir() . '/Command/MyTestCommand.php';
-        $this->assertFileExists($commandFile);
-
-        $this->assertRegExp("/my:test(.*?)MyTestCommand(.*?)DToolsTestDummyBundle/", $commandTester->getDisplay());
-
-        $content = file_get_contents($commandFile);
-        $this->assertRegExp('/MyTestCommand extends Command/', $content);
-        $this->assertRegExp('/setName\(\'my:test\'\)/', $content);
-        $this->setExpectedException('RuntimeException');
-        $this->executeCommand();
+        $this->assertRegExp("/my:test(.*?)MyTestCommand(.*?)DummyBundle/", $commandTester->getDisplay());
     }
 
     public function testCreateCommandClass()
     {
+        $this->setSourceDirExpects('command');
+
+        $this->setFilenamesExpects(array(
+            '_command.tpl' => 'MyClassCommand.php'
+        ));
+
+        $this->setParametersExpects(array(
+            'namespace' => 'DToolsTest\DummyBundle',
+            'class' => 'MyClass',
+            'command' => 'my:test',
+            'bundle' => 'DummyBundle'
+        ));
+
         $commandTester = $this->executeCommand(array('--class' => 'MyClass'));
 
-        $commandFile = $this->getDummyDir() . '/Command/MyClassCommand.php';
-        $this->assertFileExists($commandFile);
+        $this->assertRegExp("/my:test(.*?)MyClassCommand(.*?)DummyBundle/", $commandTester->getDisplay());
+    }
 
-        $this->assertRegExp("/my:test(.*?)MyClassCommand(.*?)DToolsTestDummyBundle/", $commandTester->getDisplay());
-
-        $content = file_get_contents($commandFile);
-        $this->assertRegExp('/MyClassCommand extends Command/', $content);
-        $this->assertRegExp('/setName\(\'my:test\'\)/', $content);
+    public function testCreateCommandResourceExists()
+    {
+        $this->setExpectedException('RuntimeException');
+        $this->executeCommand(array('bundle' => 'DummyBundle2'));
     }
 
     protected function executeCommand($extra = array())
@@ -49,7 +65,7 @@ class CreateCommandCommandTest extends CommandTestCase
         $params = array_merge(array(
             'command' => 'devkit:create-command',
             'cmd' => 'my:test',
-            'bundle' => 'DToolsTestDummyBundle'
+            'bundle' => 'DummyBundle'
         ), $extra);
 
         $commandTester = $this->getCommandTester(new CreateCommandCommand());
