@@ -19,8 +19,8 @@ This command generates the following file::
        Controller
         > DefaultController.php
 
-``DefaultController`` class extends ``Symfony\Bundle\FrameworkBundle\Controller\Controller``
-and contains a sample method ``indexAction``.
+Generated file contains a ``DefaultController`` class with a sample method
+``indexAction``.
 
 ::
 
@@ -34,8 +34,15 @@ This command generates the following file::
        Controller
         > MainController.php
 
-``MainController`` class extends ``Symfony\Component\DependencyInjection\ContainerAware``
-and contains a sample method ``showAction``.
+Generated file contains a ``MainController`` class with a sample method
+``showAction``.
 
-Sample templates are in ``DTools/DevkitBundle/Resources/skeleton/controller``
-and can be customized by copying them to ``app/Resources/DToolsDevkitBundle/skeleton/controller``
+Templates
+---------
+
+Templates used by this command are in ``DTools/DevkitBundle/Resources/skeleton/controller``
+
+#. **default**: controller class extends ``Symfony\Bundle\FrameworkBundle\Controller\Controller``.
+#. **container_aware**: controller class extends ``Symfony\Component\DependencyInjection\ContainerAware``
+
+Templates can be customized by copying them to ``app/Resources/DToolsDevkitBundle/skeleton/controller``

@@ -26,6 +26,15 @@ This command generates the following file::
 Test case class is named after the class you are writing the test for, use the
 ``--test-class`` option to specify a different name.
 
-The ``default`` template generates a standard unit test (i.e the test case class
-``Acme\MyBundle\Tests\Model\ArticleTest`` extends ``\PHPUnit_Framework_TestCase``),
-if you want a functional test case, use ``functional`` template.
+Templates
+---------
+
+Templates used by this command are in ``DTools/DevkitBundle/Resources/skeleton/test``
+
+#. **default**: generates a standard unit test (the test case class extends
+   ``\PHPUnit_Framework_TestCase``).
+
+#. **functional**: generates a functional test (the test case class extends
+   ``Symfony\Bundle\FrameworkBundle\Test\WebTestCase``).
+
+Templates can be customized by copying them to ``app/Resources/DToolsDevkitBundle/skeleton/test``

@@ -44,3 +44,12 @@ for example in a controller action::
 
     // no value set in app/config.yml so it returns default value 'value2-2'
     $param = $this->container->getParameter('acme_my.param2.key2');
+
+Templates
+---------
+
+Templates used by this command are in ``DTools/DevkitBundle/Resources/skeleton/config``
+
+#. **default**
+
+Templates can be customized by copying them to ``app/Resources/DToolsDevkitBundle/skeleton/config``

@@ -37,3 +37,12 @@ This command generates the following file::
 For help on how to use a fixture loader class, see
 `How to create Fixtures in Symfony2 <http://symfony.com/doc/2.0/cookbook/doctrine/doctrine_fixtures.html>`_
 in official *Symfony2 Cookbook*.
+
+Templates
+---------
+
+Templates used by this command are in ``DTools/DevkitBundle/Resources/skeleton/fixture``
+
+#. **default**
+
+Templates can be customized by copying them to ``app/Resources/DToolsDevkitBundle/skeleton/fixture``

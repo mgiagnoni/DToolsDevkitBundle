@@ -22,5 +22,11 @@ This command generates the following file::
 If ``--author`` option is omitted, the value of parameter ``d_tools_devkit.author.name``
 as set in :doc:`bundle configuration<../configuration>` is used.
 
-The default template adds a **MIT** license, templates for other licenses can be
-created in ``app/Resources/DToolsDevkitBundle/skeleton/license``.
+Templates
+---------
+
+Templates used by this command are in ``DTools/DevkitBundle/Resources/skeleton/license``
+
+#. **default**: creates a **MIT** license file.
+
+Templates for other licenses can be created in ``app/Resources/DToolsDevkitBundle/skeleton/license``.

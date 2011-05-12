@@ -35,5 +35,11 @@ This command generates the following file::
        Command
         > MyClassCommand.php
 
-Sample templates are in ``DTools/DevkitBundle/Resources/skeleton/command``
-and can be customized by copying them to ``app/Resources/DToolsDevkitBundle/skeleton/command``
+Templates
+---------
+
+Templates used by this command are in ``DTools/DevkitBundle/Resources/skeleton/command``
+
+#. **default**
+
+Templates can be customized by copying them to ``app/Resources/DToolsDevkitBundle/skeleton/command``

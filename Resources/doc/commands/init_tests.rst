@@ -19,3 +19,12 @@ This command generates the following files::
        Tests
         > bootstrap.php
       > phpunit.xml.dist
+
+Templates
+---------
+
+Templates used by this command are in ``DTools/DevkitBundle/Resources/skeleton/tests``
+
+#. **default**
+
+Templates can be customized by copying them to ``app/Resources/DToolsDevkitBundle/skeleton/tests``
