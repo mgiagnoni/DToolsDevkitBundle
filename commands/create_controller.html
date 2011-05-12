@@ -62,8 +62,8 @@ on a customizable template, inside a bundle.</p>
    Controller
     &gt; DefaultController.php</pre>
 </div>
-<p><tt class="docutils literal"><span class="pre">DefaultController</span></tt> class extends <tt class="docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt>
-and contains a sample method <tt class="docutils literal"><span class="pre">indexAction</span></tt>.</p>
+<p>Generated file contains a <tt class="docutils literal"><span class="pre">DefaultController</span></tt> class with a sample method
+<tt class="docutils literal"><span class="pre">indexAction</span></tt>.</p>
 <div class="highlight-python"><pre>./app/console devkit:create-controller AcmeMyBundle Main --action=show --template=container_aware</pre>
 </div>
 <p>This command generates the following file:</p>
@@ -73,10 +73,17 @@ and contains a sample method <tt class="docutils literal"><span class="pre">inde
    Controller
     &gt; MainController.php</pre>
 </div>
-<p><tt class="docutils literal"><span class="pre">MainController</span></tt> class extends <tt class="docutils literal"><span class="pre">Symfony\Component\DependencyInjection\ContainerAware</span></tt>
-and contains a sample method <tt class="docutils literal"><span class="pre">showAction</span></tt>.</p>
-<p>Sample templates are in <tt class="docutils literal"><span class="pre">DTools/DevkitBundle/Resources/skeleton/controller</span></tt>
-and can be customized by copying them to <tt class="docutils literal"><span class="pre">app/Resources/DToolsDevkitBundle/skeleton/controller</span></tt></p>
+<p>Generated file contains a <tt class="docutils literal"><span class="pre">MainController</span></tt> class with a sample method
+<tt class="docutils literal"><span class="pre">showAction</span></tt>.</p>
+</div>
+<div class="section" id="templates">
+<h2>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h2>
+<p>Templates used by this command are in <tt class="docutils literal"><span class="pre">DTools/DevkitBundle/Resources/skeleton/controller</span></tt></p>
+<ol class="arabic simple">
+<li><strong>default</strong>: controller class extends <tt class="docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt>.</li>
+<li><strong>container_aware</strong>: controller class extends <tt class="docutils literal"><span class="pre">Symfony\Component\DependencyInjection\ContainerAware</span></tt></li>
+</ol>
+<p>Templates can be customized by copying them to <tt class="docutils literal"><span class="pre">app/Resources/DToolsDevkitBundle/skeleton/controller</span></tt></p>
 </div>
 </div>
 
@@ -90,6 +97,7 @@ and can be customized by copying them to <tt class="docutils literal"><span clas
   <ul>
 <li><a class="reference internal" href="#">devkit:create-controller</a><ul>
 <li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#templates">Templates</a></li>
 </ul>
 </li>
 </ul>

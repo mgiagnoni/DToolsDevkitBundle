@@ -67,9 +67,17 @@ double quoted because of backslash.</p>
 </div>
 <p>Test case class is named after the class you are writing the test for, use the
 <tt class="docutils literal"><span class="pre">--test-class</span></tt> option to specify a different name.</p>
-<p>The <tt class="docutils literal"><span class="pre">default</span></tt> template generates a standard unit test (i.e the test case class
-<tt class="docutils literal"><span class="pre">Acme\MyBundle\Tests\Model\ArticleTest</span></tt> extends <tt class="docutils literal"><span class="pre">\PHPUnit_Framework_TestCase</span></tt>),
-if you want a functional test case, use <tt class="docutils literal"><span class="pre">functional</span></tt> template.</p>
+</div>
+<div class="section" id="templates">
+<h2>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h2>
+<p>Templates used by this command are in <tt class="docutils literal"><span class="pre">DTools/DevkitBundle/Resources/skeleton/test</span></tt></p>
+<ol class="arabic simple">
+<li><strong>default</strong>: generates a standard unit test (the test case class extends
+<tt class="docutils literal"><span class="pre">\PHPUnit_Framework_TestCase</span></tt>).</li>
+<li><strong>functional</strong>: generates a functional test (the test case class extends
+<tt class="docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Test\WebTestCase</span></tt>).</li>
+</ol>
+<p>Templates can be customized by copying them to <tt class="docutils literal"><span class="pre">app/Resources/DToolsDevkitBundle/skeleton/test</span></tt></p>
 </div>
 </div>
 
@@ -83,6 +91,7 @@ if you want a functional test case, use <tt class="docutils literal"><span class
   <ul>
 <li><a class="reference internal" href="#">devkit:create-test</a><ul>
 <li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#templates">Templates</a></li>
 </ul>
 </li>
 </ul>
