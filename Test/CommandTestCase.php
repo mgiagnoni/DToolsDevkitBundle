@@ -44,7 +44,7 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
                 ->method('getContainer')
                 ->will($this->returnValue($this->getMockContainer()));
         }
-
+        $this->kernel->boot();
         return $this->kernel;
     }
 

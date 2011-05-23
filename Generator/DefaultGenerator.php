@@ -10,7 +10,7 @@
 namespace DTools\DevkitBundle\Generator;
 
 use Symfony\Component\HttpKernel\Util\Filesystem;
-use Symfony\Bundle\FrameworkBundle\Util\Mustache;
+use Symfony\Bundle\FrameworkBundle\Generator\Generator;
 
 /**
  * Mirrors a set of template files into a destination directory and renders them
@@ -168,7 +168,7 @@ class DefaultGenerator
         foreach ($iterator as $file) {
             if ('.tpl' == substr($file->getPathname(), -4)) {
                 $target = $dest.'/'.str_replace($src . DIRECTORY_SEPARATOR, '', $file->getPathname());
-                Mustache::renderFile($target, $this->getParameters());
+                Generator::renderFile($target, $this->getParameters());
 
                 if ($fname = $this->getRenamedFile(basename($target))) {
                     $renamed = dirname($target) . DIRECTORY_SEPARATOR . $fname;
