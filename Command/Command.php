@@ -9,7 +9,7 @@
 
 namespace DTools\DevkitBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command as BaseCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,16 +28,16 @@ abstract class Command extends BaseCommand
 
         if ($input->hasArgument('bundle')) {
             $bundleName = $input->getArgument('bundle');
-            $alias = $this->container->getParameter('d_tools_devkit.alias');
+            $alias = $this->getContainer()->getParameter('d_tools_devkit.alias');
 
             if (isset($alias[$bundleName])) {
                 $bundleName = $alias[$bundleName];
             }
 
-            $this->bundle = $this->container->get('kernel')
+            $this->bundle = $this->getContainer()->get('kernel')
                 ->getBundle($bundleName);
 
-            $this->container->get('d_tools_devkit.generator')
+            $this->getContainer()->get('d_tools_devkit.generator')
                 ->setDestinationDir($this->bundle->getPath());
         }
     }
@@ -45,9 +45,9 @@ abstract class Command extends BaseCommand
     protected function getTemplatePath($folder)
     {
         $resource = sprintf('@DToolsDevkitBundle/Resources/skeleton/%s/%s', $folder, $this->template);
-        $rootDir  = $this->container->get('kernel')->getRootDir() . '/Resources';
+        $rootDir  = $this->getContainer()->get('kernel')->getRootDir() . '/Resources';
 
-        return $this->container->get('kernel')->locateResource($resource, $rootDir);
+        return $this->getContainer()->get('kernel')->locateResource($resource, $rootDir);
     }
 
     protected function resourceExists($bundle, $resource)
@@ -57,7 +57,7 @@ abstract class Command extends BaseCommand
         }
 
         try {
-            $this->container->get('kernel')
+            $this->getContainer()->get('kernel')
                 ->locateResource('@' . $bundle->getName() . $resource);
         } catch (\InvalidArgumentException $e) {
             return false;

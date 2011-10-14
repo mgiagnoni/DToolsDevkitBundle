@@ -45,7 +45,7 @@ EOT
             throw new \RuntimeException(sprintf('A documentation index file already exists in bundle "%s".', $this->bundle->getName()));
         }
 
-        $this->container->get('d_tools_devkit.generator')
+        $this->getContainer()->get('d_tools_devkit.generator')
             ->setSourceDir($this->getTemplatePath('doc'))
             ->setFileNames(array('_index.tpl' => 'index.rst'))
             ->setParameters(array(

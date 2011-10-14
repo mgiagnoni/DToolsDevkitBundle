@@ -51,7 +51,7 @@ EOT
             throw new \RuntimeException(sprintf('A fixture loading class "%s" already exists in "DataFixtures/ORM" folder of bundle "%s".', $class, $this->bundle->getName()));
         }
 
-        $this->container->get('d_tools_devkit.generator')
+        $this->getContainer()->get('d_tools_devkit.generator')
             ->setSourceDir($this->getTemplatePath('fixture'))
             ->setFileNames(array('_fixture.tpl' => $class . '.php'))
             ->setParameters(array(

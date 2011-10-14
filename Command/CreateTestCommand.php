@@ -95,7 +95,7 @@ EOT
             $method = 'test' . $class;
         }
 
-        $this->container->get('d_tools_devkit.generator')
+        $this->getContainer()->get('d_tools_devkit.generator')
             ->setSourceDir($this->getTemplatePath('test'))
             ->setDestinationDir($this->bundle->getPath() . '/' . $destDir)
             ->setFileNames(array('_test.tpl' => $testFile))

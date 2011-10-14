@@ -66,7 +66,7 @@ EOT
             throw new \RuntimeException(sprintf('A command class "%sCommand" already exists in bundle "%s".', $class, $this->bundle->getName()));
         }
 
-        $this->container->get('d_tools_devkit.generator')
+        $this->getContainer()->get('d_tools_devkit.generator')
             ->setSourceDir($this->getTemplatePath('command'))
             ->setFileNames(array('_command.tpl' => $commandFile))
             ->setParameters(array(

@@ -71,7 +71,7 @@ EOT
         }
         $alias = Container::underscore(str_replace('Bundle', '', $this->bundle->getName()));
 
-        $this->container->get('d_tools_devkit.generator')
+        $this->getContainer()->get('d_tools_devkit.generator')
             ->setSourceDir($this->getTemplatePath('config'))
             ->setFileNames(array(
                 '_extension.tpl' => $extensionClass . '.php',

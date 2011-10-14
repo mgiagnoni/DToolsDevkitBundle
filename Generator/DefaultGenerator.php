@@ -10,7 +10,6 @@
 namespace DTools\DevkitBundle\Generator;
 
 use Symfony\Component\HttpKernel\Util\Filesystem;
-use Symfony\Bundle\FrameworkBundle\Generator\Generator;
 
 /**
  * Mirrors a set of template files into a destination directory and renders them
@@ -115,7 +114,7 @@ class DefaultGenerator
 
     /**
      * Returns template parameters.
-     * 
+     *
      * @return array
      */
     public function getParameters()
@@ -157,26 +156,31 @@ class DefaultGenerator
         $src = $this->getSourceDir();
         $dest = $this->getDestinationDir();
 
+        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($src), array(
+            'debug'            => true,
+            'cache'            => false,
+            'strict_variables' => true,
+            'autoescape'       => false,
+        ));
+
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($src, \FilesystemIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        $fs->mirror($src, $dest, $iterator);
-
         $iterator->rewind();
         foreach ($iterator as $file) {
             if ('.tpl' == substr($file->getPathname(), -4)) {
-                $target = $dest.'/'.str_replace($src . DIRECTORY_SEPARATOR, '', $file->getPathname());
-                Generator::renderFile($target, $this->getParameters());
+                $template = str_replace($src.DIRECTORY_SEPARATOR, '', $file->getPathname());
 
-                if ($fname = $this->getRenamedFile(basename($target))) {
-                    $renamed = dirname($target) . DIRECTORY_SEPARATOR . $fname;
-                } else {
+                if (null === $target = $this->getRenamedFile($file->getFilename())) {
                     // Remove .tpl
-                    $renamed = substr($target, 0, -4);
+                    $target =substr($file->getFilename(), 0, -4);
                 }
-                $fs->rename($target, $renamed);
+
+                $target = $dest.DIRECTORY_SEPARATOR.dirname($template).DIRECTORY_SEPARATOR.$target;
+
+                $this->saveFile($target, $twig->render($template, $this->getParameters()));
             }
         }
     }
@@ -193,9 +197,17 @@ class DefaultGenerator
 
     protected function getRenamedFile($filename)
     {
-        if (isset($this->fileNames[$filename]))
-        {
+        if (isset($this->fileNames[$filename])) {
             return $this->fileNames[$filename];
         }
+    }
+
+    protected function saveFile($target, $content)
+    {
+        if (!is_dir(dirname($target))) {
+           mkdir(dirname($target), 0777, true);
+        }
+
+        file_put_contents($target, $content);
     }
 }

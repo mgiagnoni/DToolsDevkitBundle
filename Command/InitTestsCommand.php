@@ -50,7 +50,7 @@ EOT
             throw new \RuntimeException(sprintf('A "bootstrap.php" file already exists in "%s" "Tests" folder.', $this->bundle->getName()));
         }
 
-        $this->container->get('d_tools_devkit.generator')
+        $this->getContainer()->get('d_tools_devkit.generator')
             ->setSourceDir($this->getTemplatePath('tests'))
             ->setFileNames(array(
                 '_phpunit.xml.dist.tpl' => 'phpunit.xml.dist',

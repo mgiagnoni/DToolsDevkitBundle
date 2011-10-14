@@ -46,14 +46,14 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (null === $author = $input->getOption('author')) {
-            $author = $this->container->getParameter('d_tools_devkit.author.name');
+            $author = $this->getContainer()->getParameter('d_tools_devkit.author.name');
         }
 
         if ($this->resourceExists($this->bundle, '/Resources/meta/LICENSE')) {
             throw new \RuntimeException(sprintf('A LICENSE file already exists in bundle "%s".', $this->bundle->getName()));
         }
 
-        $this->container->get('d_tools_devkit.generator')
+        $this->getContainer()->get('d_tools_devkit.generator')
             ->setSourceDir($this->getTemplatePath('license'))
             ->setFileNames(array('_license.tpl' => 'LICENSE'))
             ->setParameters(array(

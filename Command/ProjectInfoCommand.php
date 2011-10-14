@@ -33,7 +33,7 @@ class ProjectInfoCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $kernel = $this->container->get('kernel');
+        $kernel = $this->getContainer()->get('kernel');
 
         $lines = array(
             array('Symfony version:', $this->getApplication()->getVersion()),
@@ -47,7 +47,7 @@ class ProjectInfoCommand extends Command
         if (count($connections)) {
             foreach ($connections as $name) {
                 $lines[] = array('Name:', $name);
-                $connection = $this->container->get(sprintf('doctrine.dbal.%s_connection', $name));
+                $connection = $this->getContainer()->get(sprintf('doctrine.dbal.%s_connection', $name));
 
                 $params = $connection->getParams();
                 $lines[] = array('Driver:', $params['driver']);
@@ -83,11 +83,11 @@ class ProjectInfoCommand extends Command
         }
         $output->writeln('');
     }
-    
+
     protected function getDbalConnections()
     {
         $connections = array();
-        foreach ($this->container->getServiceIds() as $service) {
+        foreach ($this->getContainer()->getServiceIds() as $service) {
             $matches = array();
             if (preg_match('/doctrine\.dbal\.(.*?)_connection$/', $service, $matches)) {
                 $connections[] = $matches[1];
