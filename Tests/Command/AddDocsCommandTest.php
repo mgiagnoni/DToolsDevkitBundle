@@ -16,11 +16,8 @@ class AddDocsCommandTest extends CommandTestCase
 {
     public function testAddDocs()
     {
-        $this->setSourceDirExpects('doc');
-
-        $this->setParametersExpects(array(
-            'namespace' => 'DToolsTest\DummyBundle',
-            'bundle' => 'DummyBundle'
+        $this->setTargetExpects(array(
+            'Resources/doc/index.rst' => '/DummyBundle/'
         ));
 
         $commandTester = $this->executeCommand();

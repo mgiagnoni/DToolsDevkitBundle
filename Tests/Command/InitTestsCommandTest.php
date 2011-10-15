@@ -16,12 +16,10 @@ class InitTestsCommandTest extends CommandTestCase
 {
     public function testInitTests()
     {
-        $this->setParametersExpects(array(
-            'namespace' => 'DToolsTest\\\\DummyBundle',
-            'ct_namespace' => 2,
-            'bundle' => 'DummyBundle'
+        $this->setTargetExpects(array(
+            'phpunit.xml.dist' => '/./',
+            'Tests/bootstrap.php' => "/DToolsTest\\\\{2}DummyBundle/"
         ));
-
         $this->executeCommand();
     }
 

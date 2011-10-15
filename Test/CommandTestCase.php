@@ -77,61 +77,26 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
         if (null === $this->generator) {
             $this->generator = $this->getMockBuilder('DTools\DevkitBundle\Generator\DefaultGenerator')
                 ->disableOriginalConstructor()
+                ->setMethods(array(
+                    'saveFile'
+                ))
                 ->getMock();
-
-            //Default expectations to mock generator fluent interface
-
-            $this->generator->expects($this->any())
-                ->method('setDestinationDir')
-                ->will($this->returnValue($this->generator));
-
-            $this->generator->expects($this->any())
-                ->method('setSourceDir')
-                ->will($this->returnValue($this->generator));
-
-            $this->generator->expects($this->any())
-                ->method('setParameters')
-                ->will($this->returnValue($this->generator));
-
-            $this->generator->expects($this->any())
-                ->method('setFilenames')
-                ->will($this->returnValue($this->generator));
-
         }
         return $this->generator;
     }
 
-    protected function setSourceDirExpects($skeletonFolder, $template = 'default')
+    protected function setTargetExpects($files)
     {
-        $generator = $this->getMockGenerator();
-        $base = realpath(__DIR__ . '/../');
-
-        $generator->expects($this->once())
-            ->method('setSourceDir')
-            ->with($this->equalTo(
-                sprintf('%s/Resources/skeleton/%s/%s', $base, $skeletonFolder, $template)
-            ))
-            ->will($this->returnValue($generator));
-    }
-
-    protected function setParametersExpects($params)
-    {
+        $base = realpath(__DIR__ . '/../Tests/Fixtures/DummyBundle');
+        $at = 0;
         $generator = $this->getMockGenerator();
 
-        $generator->expects($this->once())
-            ->method('setParameters')
-            ->with($this->equalTo($params))
-            ->will($this->returnValue($generator));
-    }
-
-    protected function setFilenamesExpects($files)
-    {
-        $generator = $this->getMockGenerator();
-
-        $generator->expects($this->once())
-            ->method('setFilenames')
-            ->with($this->equalTo($files))
-            ->will($this->returnValue($generator));
+        foreach ($files as $file => $content) {
+            $generator->expects($this->at($at))
+                ->method('saveFile')
+                ->with($this->equalTo($base.'/'.$file), $this->matchesRegularExpression($content));
+            $at++;
+        }
     }
 
     protected function getCommandTester($command)

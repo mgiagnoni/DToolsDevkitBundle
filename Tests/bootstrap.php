@@ -13,6 +13,8 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespace('Symfony', $_SERVER['SYMFONY']);
+$loader->registerPrefix('Twig_', $_SERVER['TWIG']);
+
 $loader->register();
 
 spl_autoload_register(function($class)

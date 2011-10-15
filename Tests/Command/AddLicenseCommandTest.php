@@ -16,12 +16,8 @@ class AddLicenseCommandTest extends CommandTestCase
 {
     public function testAddLicense()
     {
-        $this->setSourceDirExpects('license');
-
-        $this->setParametersExpects(array(
-            'author' => 'Test',
-            'year' => date('Y'),
-            'bundle' => 'DummyBundle'
+        $this->setTargetExpects(array(
+            'Resources/meta/LICENSE' => "/Copyright \(c\) ".date('Y')." Test/"
         ));
 
         $commandTester = $this->executeCommand();

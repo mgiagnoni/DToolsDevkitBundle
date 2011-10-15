@@ -16,19 +16,9 @@ class CreateCommandCommandTest extends CommandTestCase
 {
     public function testCreateCommand()
     {
-        $this->setSourceDirExpects('command');
-
-        $this->setFilenamesExpects(array(
-            '_command.tpl' => 'MyTestCommand.php'
+        $this->setTargetExpects(array(
+            'Command/MyTestCommand.php' => "/namespace DToolsTest\\\\DummyBundle\\\\Command(.*?)class MyTestCommand/s"
         ));
-
-        $this->setParametersExpects(array(
-            'namespace' => 'DToolsTest\DummyBundle',
-            'class' => 'MyTest',
-            'command' => 'my:test',
-            'bundle' => 'DummyBundle'
-        ));
-
         $commandTester = $this->executeCommand();
 
         $this->assertRegExp("/my:test(.*?)MyTestCommand(.*?)DummyBundle/", $commandTester->getDisplay());
@@ -36,17 +26,8 @@ class CreateCommandCommandTest extends CommandTestCase
 
     public function testCreateCommandClass()
     {
-        $this->setSourceDirExpects('command');
-
-        $this->setFilenamesExpects(array(
-            '_command.tpl' => 'MyClassCommand.php'
-        ));
-
-        $this->setParametersExpects(array(
-            'namespace' => 'DToolsTest\DummyBundle',
-            'class' => 'MyClass',
-            'command' => 'my:test',
-            'bundle' => 'DummyBundle'
+        $this->setTargetExpects(array(
+            'Command/MyClassCommand.php' => "/namespace DToolsTest\\\\DummyBundle\\\\Command(.*?)class MyClassCommand(.*?)setName\('my:test'\)/s"
         ));
 
         $commandTester = $this->executeCommand(array('--class' => 'MyClass'));

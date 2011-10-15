@@ -16,26 +16,9 @@ class CreateControllerCommandTest extends CommandTestCase
 {
     public function testCreateController()
     {
-        $this->setSourceDirExpects('controller');
-
-        $generator = $this->getMockGenerator(true);
-
-        $generator->expects($this->once())
-            ->method('setFilenames')
-            ->with($this->equalTo(array(
-                    '_controller.tpl' => 'TestController.php'
-                )))
-            ->will($this->returnValue($generator));
-
-        $generator->expects($this->once())
-            ->method('setParameters')
-            ->with($this->equalTo(array(
-                'namespace' => 'DToolsTest\DummyBundle',
-                'controller' => 'Test',
-                'action' => 'index',
-                'bundle' => 'DummyBundle'
-            )))
-            ->will($this->returnValue($generator));
+        $this->setTargetExpects(array(
+            'Controller/TestController.php' => "/namespace DToolsTest\\\\DummyBundle\\\\Controller(.*?)class TestController/s"
+        ));
 
         $commandTester = $this->executeCommand();
 

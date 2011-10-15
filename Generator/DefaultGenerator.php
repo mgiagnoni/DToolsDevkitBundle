@@ -178,8 +178,7 @@ class DefaultGenerator
                     $target =substr($file->getFilename(), 0, -4);
                 }
 
-                $target = $dest.DIRECTORY_SEPARATOR.dirname($template).DIRECTORY_SEPARATOR.$target;
-
+                $target = $dest.DIRECTORY_SEPARATOR.(dirname($template) !== '.' ? dirname($template).DIRECTORY_SEPARATOR : '').$target;
                 $this->saveFile($target, $twig->render($template, $this->getParameters()));
             }
         }
