@@ -1,4 +1,7 @@
 <?php
+
+{% include 'header.twig' %}
+
 namespace {{ namespace }}\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;

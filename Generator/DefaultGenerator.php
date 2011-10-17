@@ -19,6 +19,7 @@ class DefaultGenerator
 {
     protected $destination;
     protected $source;
+    protected $commonDir;
     protected $parameters = array();
     protected $fileNames = array();
     protected $filesystem;
@@ -100,6 +101,29 @@ class DefaultGenerator
     }
 
     /**
+     * Sets directory where global templates reside.
+     *
+     * @param string $dir
+     * @return Generator instance
+     */
+    public function setCommonDir($dir)
+    {
+        $this->commonDir = $this->normalizeDir($dir);
+
+        return $this;
+    }
+
+    /**
+     * Returns directory where global templates reside.
+     *
+     * @return string
+     */
+    public function getCommonDir()
+    {
+        return $this->commonDir;
+    }
+
+    /**
      * Sets parameters for variable sostitution in template files.
      *
      * @param array $parameters
@@ -156,12 +180,12 @@ class DefaultGenerator
         $src = $this->getSourceDir();
         $dest = $this->getDestinationDir();
 
-        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem($src), array(
+        $twig = new \Twig_Environment(new \Twig_Loader_Filesystem(array($src, $this->commonDir), array(
             'debug'            => true,
             'cache'            => false,
             'strict_variables' => true,
             'autoescape'       => false,
-        ));
+        )));
 
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($src, \FilesystemIterator::SKIP_DOTS),

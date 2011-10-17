@@ -1,4 +1,7 @@
 <?php
+
+{% include 'header.twig' %}
+
 namespace {{ namespace }}\Command;
 
 use Symfony\Component\Console\Input\InputArgument;

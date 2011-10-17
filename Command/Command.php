@@ -38,13 +38,14 @@ abstract class Command extends BaseCommand
                 ->getBundle($bundleName);
 
             $this->getContainer()->get('d_tools_devkit.generator')
-                ->setDestinationDir($this->bundle->getPath());
+                ->setDestinationDir($this->bundle->getPath())
+                ->setCommonDir($this->getTemplatePath('_common', true));
         }
     }
 
-    protected function getTemplatePath($folder)
+    protected function getTemplatePath($folder, $noTemplate = false)
     {
-        $resource = sprintf('@DToolsDevkitBundle/Resources/skeleton/%s/%s', $folder, $this->template);
+        $resource = sprintf('@DToolsDevkitBundle/Resources/skeleton/%s/%s', $folder, $noTemplate ? '' : $this->template);
         $rootDir  = $this->getContainer()->get('kernel')->getRootDir() . '/Resources';
 
         return $this->getContainer()->get('kernel')->locateResource($resource, $rootDir);

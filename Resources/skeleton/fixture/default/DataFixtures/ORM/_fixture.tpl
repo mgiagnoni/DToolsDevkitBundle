@@ -1,5 +1,7 @@
 <?php
 
+{% include 'header.twig' %}
+
 namespace {{ namespace }}\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;

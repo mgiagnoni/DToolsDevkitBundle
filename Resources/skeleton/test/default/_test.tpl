@@ -1,5 +1,7 @@
 <?php
 
+{% include 'header.twig' %}
+
 namespace {{ namespace }};
 
 use {{ use }};

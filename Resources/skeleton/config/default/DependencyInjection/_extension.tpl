@@ -1,5 +1,7 @@
 <?php
 
+{% include 'header.twig' %}
+
 namespace {{ namespace }}\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;

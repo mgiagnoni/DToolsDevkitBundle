@@ -104,7 +104,8 @@ EOT
                 'use' => $use,
                 'class' => $class,
                 'test_class' => $testCase,
-                'test_method' =>  $method
+                'test_method' =>  $method,
+                'bundle' => $this->bundle->getName()
             ))
             ->render();
 

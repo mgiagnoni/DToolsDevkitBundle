@@ -1,5 +1,7 @@
 <?php
 
+{% include 'header.twig' %}
+
 require_once $_SERVER['SYMFONY'].'/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
